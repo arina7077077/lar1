@@ -13,21 +13,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/hello/{name}', function(string $name)
-{
-    return "Hello, " . $name;
-});
+Route::view('/', 'welcome');
+Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
 
-Route::get('/info/', function()
-{
+
+// ------
+
+
+// Route::get('/hello/{name}', function(string $name)
+// {
+//     return "Hello, " . $name;
+// });
+Route::get('/hello/{name}', [\App\Http\Controllers\HomeController::class, 'index']);
+
+
+// ------
+
+
+Route::get('info', function() {
     return "Информация о проекта";
-});
+})->name('static-pages.info');
 
-Route::get('/news/', function()
-{
+Route::get('articles', function() {
     return "тут должны быть новости";
-});
+})->name('static-pages.articles');
+
+Route::get('articles/{id}', [\App\Http\Controllers\HomeController::class, 'show'])->name('get-article');
