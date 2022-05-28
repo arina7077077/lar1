@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 
+use App\Http\Controllers\Admin\ArticleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,4 +49,16 @@ Route::get('articles', function() {
 Route::get('articles/{id}', [HomeController::class, 'show'])->name('get-article');
 
 Route::get('home', [HomeController::class, 'index'])->name('home-page');
-Route::get('admin', [])->name('admin');
+
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function () {
+    Route::group([
+        'prefix' => 'articles',
+        'as' => 'articles.'
+    ], function () {
+        Route::get('create', [ArticleController::class, 'create'])->name('create');
+        Route::post('/', [ArticleController::class, 'store'])->name('store');
+    });
+});
