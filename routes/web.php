@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::view('/', 'welcome');
-Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('home', [HomeController::class, 'index']);
 
 
 // ------
@@ -28,7 +30,7 @@ Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
 // {
 //     return "Hello, " . $name;
 // });
-Route::get('/hello/{name}', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/hello/{name}', [HomeController::class, 'index']);
 
 
 // ------
@@ -36,10 +38,13 @@ Route::get('/hello/{name}', [\App\Http\Controllers\HomeController::class, 'index
 
 Route::get('info', function() {
     return "Информация о проекта";
-})->name('static-pages.info');
+})->name('static-static-pages.info');
 
 Route::get('articles', function() {
     return "тут должны быть новости";
-})->name('static-pages.articles');
+})->name('static-static-pages.articles');
 
-Route::get('articles/{id}', [\App\Http\Controllers\HomeController::class, 'show'])->name('get-article');
+Route::get('articles/{id}', [HomeController::class, 'show'])->name('get-article');
+
+Route::get('home', [HomeController::class, 'index'])->name('home-page');
+Route::get('admin', [])->name('admin');

@@ -24,8 +24,8 @@ class HomeController extends Controller
         $text = "lorem ipsum12321312";
         $params = [
             'text' => "$text <p>some text</p>",
-            'url1' => route('static-pages.info'),
-            'url2' => route('static-pages.articles'),
+            'url1' => route('static-static-pages.info'),
+            'url2' => route('static-static-pages.articles'),
         ];
 
         // return view('home', [
