@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
+
+use App\Http\Controllers\Admin\ArticleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,21 +17,48 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/hello/{name}', function(string $name)
-{
-    return "Hello, " . $name;
-});
+Route::view('/', 'welcome');
+Route::get('home', [HomeController::class, 'index']);
 
-Route::get('/info/', function()
-{
+
+// ------
+
+
+// Route::get('/hello/{name}', function(string $name)
+// {
+//     return "Hello, " . $name;
+// });
+Route::get('/hello/{name}', [HomeController::class, 'index']);
+
+
+// ------
+
+
+Route::get('info', function() {
     return "Информация о проекта";
-});
+})->name('static-static-pages.info');
 
-Route::get('/news/', function()
-{
+Route::get('articles', function() {
     return "тут должны быть новости";
+})->name('static-static-pages.articles');
+
+Route::get('articles/{id}', [HomeController::class, 'show'])->name('get-article');
+
+Route::get('home', [HomeController::class, 'index'])->name('home-page');
+
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function () {
+    Route::group([
+        'prefix' => 'articles',
+        'as' => 'articles.'
+    ], function () {
+        Route::get('create', [ArticleController::class, 'create'])->name('create');
+        Route::post('/', [ArticleController::class, 'store'])->name('store');
+    });
 });
