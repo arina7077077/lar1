@@ -14,9 +14,8 @@
 <body>
     <div class="main-menu">
         <ul>
-            <li><a href="{{ route('home-page') }}">Home</a></li>
-            <li><a href="{{ route('static-static-pages.articles') }}">Articles</a></li>
-            <li><a href="{{ route('admin') }}">Admin</a></li>
+            <li><a href="{{ route('home') }}">Home</a></li>
+            <li><a href="{{ route('static-pages.articles') }}">Articles</a></li>
         </ul>
     </div>
     <div class="container">

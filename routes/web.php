@@ -46,9 +46,11 @@ Route::get('articles', function() {
     return "тут должны быть новости";
 })->name('static-static-pages.articles');
 
+Route::view('/', 'home')->name('home');
+
 Route::get('articles/{id}', [HomeController::class, 'show'])->name('get-article');
 
-Route::get('home', [HomeController::class, 'index'])->name('home-page');
+Route::get('articles', [HomeController::class, 'index'])->name('static-pages.articles');
 
 Route::group([
     'prefix' => 'admin',

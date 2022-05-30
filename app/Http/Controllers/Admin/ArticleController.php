@@ -10,6 +10,13 @@ class ArticleController extends Controller
 {
     public function create()
     {
+        // $content = view('admin.articles.create')->render();
+        //
+        // return response($content)
+        //     ->header('Content-Type', 'application/text')
+        //     ->header('Content-Length', mb_strlen($content))
+        //     ->header('Content-Disposition', 'attachment; filename="text.html"');
+
         return view('admin.articles.create');
     }
 
