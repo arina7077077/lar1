@@ -22,19 +22,27 @@ class HomeController extends Controller
     public function index()
     {
         $text = "lorem ipsum12321312";
-        $params = [
-            'text' => "$text <p>some text</p>",
-            'url1' => route('static-static-pages.info'),
-            'url2' => route('static-static-pages.articles'),
-        ];
+        // $articles = \DB::select('SELECT id, title, content, is_active FROM articles WHERE is_active = 1');
+        // dd($articles);
+        // if (empty($articles)) {
+        //     return redirect()->route('home');
+        // }
+        $articles = \DB::table('articles')->where('is_active', true)->get();
+        // dd($articles);
+        if ($articles->isEmpty()) {
+            return redirect()->route('home');
+        }
+        // dd(
+        //     $articles->count(),
+        //     $articles->max('id')
+        // );
 
-        // return view('home', [
-        //     'text' => $text,
-        //     'params' => $params,
-        // ]);
+        // \DB::insert();
+        // \DB::update();
+        // \DB::delete()
 
         return view('home', [
-            'articles' => $this->articles,
+            'articles' => $articles,
             'text' => $text,
         ]);
 
@@ -43,8 +51,21 @@ class HomeController extends Controller
 
     public function show(int|string $id)
     {
-        $article = array_filter($this->articles, static fn($item) => $item['id'] == $id);
+        // $article = array_filter($this->articles, static fn($item) => $item['id'] == $id);
+        //
+        // return array_values($article)[0]['content'];
 
-        return array_values($article)[0]['content'];
+        // $article = \DB::select("SELECT id, title, content, is_active FROM articles WHERE id = $id");
+        // dd($articles);
+        // return view('static-pages.article', ['article' => $article[0]]);
+
+        $article = \DB::table('articles')->find($id);
+        // dd($article);
+        if (!$article) {
+            return redirect()->route('home');
+        }
+
+
+        return view('static-pages.article', ['article' => $article]);
     }
 }
