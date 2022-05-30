@@ -37,6 +37,8 @@ class HomeController extends Controller
             'articles' => $this->articles,
             'text' => $text,
         ]);
+
+        // return response()->json($this->articles);
     }
 
     public function show(int|string $id)
