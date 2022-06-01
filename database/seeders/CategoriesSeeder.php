@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory;
 
-class ArticleSeeder extends Seeder
+
+class CategoriesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
+     *$faker->realText(50)
      * @return void
      */
     public function run()
@@ -18,14 +19,12 @@ class ArticleSeeder extends Seeder
         $faker = Factory::create();
         $data = [];
 
-        for ($i = 1; $i < 10; $i++) {
+        for ($i = 1; $i < 10; $i++){
             $data[] = [
-                'title' => $faker->realText(50),
-                'content' => $faker->text(400),
-                'is_active' => $faker->boolean,
+                'name' => $faker->realText(10),
             ];
         }
+        \DB::table('categories')->insert($data);
 
-        \DB::table('articles')->insert($data);
     }
 }
