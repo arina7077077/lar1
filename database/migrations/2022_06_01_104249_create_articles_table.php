@@ -11,20 +11,17 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up():void
+    public function up(): void
     {
 
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('название новости');
             $table->text('content')->nullable()->comment('содержимое новости');
-            $table->integer('category_id')->unsigned()->comment('id категории');
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->integer('resource_id')->unsigned()->comment('id источника');
-            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreignIdFor(\App\Models\Category::class)->comment('id категории');
+            $table->foreignId('resource_id')->constrained();
             $table->timestamps();
         });
-
     }
 
     /**
@@ -32,7 +29,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('articles');
     }

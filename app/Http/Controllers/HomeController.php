@@ -2,6 +2,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Models\{Article, Category, Resource};
+
 class HomeController extends Controller
 {
     private array $articles = [
@@ -19,14 +22,28 @@ class HomeController extends Controller
 
     public function index()
     {
+        // $collection = collect([100, -50, 45, 3000]);
+        //
+        // dd(
+        //     $collection->count(),
+        //     $collection->min(),
+        //     $collection->max(),
+        //     $collection->last(),
+        //     $collection->first(),
+        //     $collection->sort(),
+        // );
         $text = "lorem ipsum12321312";
 
-        $articles = \DB::table('articles')->get();
+        // $allArticles = Article::all();
+        $articles = Article::query()->where('category_id', '>', 8)->get();
+        // $articles = Article::query()->paginate(4);
+        // dd($articles->keyBy('id'));
+        // dd($articles->keyBy('id')->get(8));
+        // dd($allArticles->diff($articles));
 
         if ($articles->isEmpty()) {
             return redirect()->route('home');
         }
-
 
         return view('static-pages.articles', [
             'articles' => $articles,
@@ -35,15 +52,14 @@ class HomeController extends Controller
 
     }
 
-    public function show(int|string $id)
+    public function show(Article $article)
     {
-
-        $article = \DB::table('articles')->find($id);
-        $resource = \DB::table('resources')->where('id', $article->resource_id)->first();
-        $category = \DB::table('categories')->where('id', $article->category_id)->first();
-        if (!$article) {
-            return redirect()->route('home');
-        }
+        // $article = Article::find($id);
+        $resource = Resource::findOrFail($article->resource_id);
+        $category = Category::findOrFail($article->category_id);
+        // if (!$article) {
+        //     return redirect()->route('home');
+        // }
 
         return view('static-pages.article', [
             'article' => $article,

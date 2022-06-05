@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 
-class ArticlesSeeder extends Seeder
+class ResourcesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,17 +17,12 @@ class ArticlesSeeder extends Seeder
     {
         $faker = Factory::create();
         $data = [];
-        $resourceIds = \DB::table('categories')->pluck('id');
-        $categoryIds= \DB::table('resources')->pluck('id');
 
         for ($i = 1; $i < 10; $i++){
             $data[] = [
                 'name' => $faker->realText(10),
-                'content' => $faker->realText(50),
-                'resource_id' => $resourceIds->random(),
-                'category_id' => $categoryIds->random(),
             ];
         }
-        \DB::table('articles')->insert($data);
+        \DB::table('resources')->insert($data);
     }
 }

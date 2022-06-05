@@ -38,19 +38,18 @@ Route::get('/hello/{name}', [HomeController::class, 'index']);
 // ------
 
 
-Route::get('info', function() {
-    return "Информация о проекта";
-})->name('static-static-pages.info');
-
-Route::get('articles', function() {
-    return "тут должны быть новости";
-})->name('static-static-pages.articles');
+// Route::get('info', function() {
+//     return "Информация о проекта";
+// })->name('static-static-pages.info');
+//
+// Route::get('articles', function() {
+//     return "тут должны быть новости";
+// })->name('static-static-pages.articles');
 
 Route::view('/', 'home')->name('home');
 
-Route::get('articles/{id}', [HomeController::class, 'show'])->name('get-article');
-
 Route::get('articles', [HomeController::class, 'index'])->name('static-pages.articles');
+Route::get('articles/{article}', [HomeController::class, 'show'])->name('get-article');
 
 Route::group([
     'prefix' => 'admin',
