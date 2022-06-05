@@ -17,8 +17,8 @@ class ArticlesSeeder extends Seeder
     {
         $faker = Factory::create();
         $data = [];
-        $categoriesIDs = \DB::table('categories')->pluck('id');
-        $resourcesIDs= \DB::table('resources')->pluck('id');
+        $resourceIds = \DB::table('categories')->pluck('id');
+        $categoryIds= \DB::table('resources')->pluck('id');
 
         for ($i = 1; $i < 10; $i++){
             $data[] = [
