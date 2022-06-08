@@ -18,6 +18,7 @@
                     <th>Content</th>
                     <th>Category</th>
                     <th>Resource</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +27,12 @@
                         <td>{{ $article->id }}</td>
                         <td>{{ $article->name }}</td>
                         <td>{{ $article->content }}</td>
-                        <td>{{ $article->category_id }}</td>
-                        <td>{{ $article->resource_id }}</td>
+                        <td>{{ $article->category->name }}</td>
+                        <td>{{ $article->resource->name }}</td>
+                        <td>
+                            <a href="{{ route('admin.articles.edit', $article) }}" class="btn btn-outline-warning">Edit</a>
+                            <button type="button" class="btn btn-outline-danger">Delete</button>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

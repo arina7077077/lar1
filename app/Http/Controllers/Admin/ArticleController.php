@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\Admin\SaveArticleRequest;
+
 use App\Models\Category;
 use App\Models\Resource;
 use App\Models\Article;
@@ -14,8 +16,15 @@ class ArticleController extends Controller
 {
     public function index()
     {
+        $articles = Article::with(['category', 'resource'])->get();
+
+        // dd(
+        //     Category::query()->find(8)->articles,
+        //     Category::query()->find(8)->articles()->where('id', '>', 2)->get(),
+        // );
+
         return view('admin.articles.index', [
-            'articles' => Article::all(),
+            'articles' => $articles,
         ]);
     }
 
@@ -27,8 +36,8 @@ class ArticleController extends Controller
         //     ->header('Content-Type', 'application/text')
         //     ->header('Content-Length', mb_strlen($content))
         //     ->header('Content-Disposition', 'attachment; filename="text.html"');
-        $categories = Category::all();
-        $resources = Resource::all();
+        $categories = Category::query()->select(['id', 'name'])->get();
+        $resources = Resource::query()->select(['id', 'name'])->get();
 
         return view('admin.articles.create', [
             'categories' => $categories,
@@ -36,14 +45,14 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(SaveArticleRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string', 'max:65535'],
-            'category_id' => ['required', 'exists:categories,id'],
-            'resource_id' => ['required', 'exists:resources,id'],
-        ]);
+        // $validated = $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'content' => ['required', 'string', 'max:65535'],
+        //     'category_id' => ['required', 'exists:categories,id'],
+        //     'resource_id' => ['required', 'exists:resources,id'],
+        // ]);
 
         // 1 Need fillable
         // $article = new Article();
@@ -51,18 +60,18 @@ class ArticleController extends Controller
         // $article->save();
 
         // 2 Need fillable
-        (new Article($validated))->save();
+        (new Article($request->validated()))->save();
 
         // 3 No need fillable
         // $article = new Article();
         // $article->name = $request->input('name');
         // $article->content = $request->input('content');
         // $article->category_id = $request->input('category_id');
-        // $article->resource_id = $validated['resource_id'];
+        // $article->resource_id = $request->input('resource_id');
         // $article->save();
 
         // 4 Need fillable
-        // Article::create($validated);
+        // Article::create($request->validated());
 
         // 5 Need fillable
         // Article::create([
@@ -87,5 +96,28 @@ class ArticleController extends Controller
         // dump("get full url", $request->fullUrl());
         // dump("get query string", $request->query());
         // dump("get query string param by key 'id'", $request->query('id'));
+    }
+
+    public function edit(Article $article)
+    {
+        return view('admin.articles.edit', [
+            'article'  => $article,
+            'categories' => Category::query()->select(['id', 'name'])->get(),
+            'resources' => Resource::query()->select(['id', 'name'])->get(),
+        ]);
+    }
+
+    public function update(Article $article, SaveArticleRequest $request)
+    {
+        // $validated = $request->validate([
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'content' => ['required', 'string', 'max:65535'],
+        //     'category_id' => ['required', 'exists:categories,id'],
+        //     'resource_id' => ['required', 'exists:resources,id'],
+        // ]);
+
+        $article->update($request->validated());
+
+        return redirect()->route('admin.articles.index');
     }
 }
