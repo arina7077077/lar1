@@ -46,6 +46,19 @@ services:
             - mysql
         restart: unless-stopped
 
+    node:
+        build:
+            context: .
+            dockerfile: docker/node/Dockerfile
+            args:
+                DOCKER_USER_ID: ${DOCKER_USER_ID}
+                DOCKER_GROUP_ID: ${DOCKER_GROUP_ID}
+        container_name: lar1-node
+        working_dir: /var/www/lar1
+        volumes:
+            - ./:/var/www/lar1
+        restart: unless-stopped
+
 networks:
     default:
 

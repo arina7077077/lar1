@@ -66,3 +66,7 @@ Route::group([
         Route::put('/{article}', [ArticleController::class, 'update'])->name('update');
     });
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
