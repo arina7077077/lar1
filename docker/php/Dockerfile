@@ -50,7 +50,7 @@ RUN composer i \
    --prefer-dist
 
 COPY . .
-RUN composer dump-autoload
+#RUN composer dump-autoload
 
 RUN php artisan key:generate
 RUN php artisan storage:link

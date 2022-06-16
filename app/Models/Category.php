@@ -16,4 +16,12 @@ class Category extends Model
     // public $timestamps = false;
 
     // protected $dateFormat = 'U';
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function articles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Article::class);//, 'category_id', 'id');
+    }
 }
